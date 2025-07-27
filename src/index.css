@@ -13,6 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+canvas {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0;
+  pointer-events: none;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -23,9 +33,14 @@ a:hover {
 }
 
 body {
+  background: linear-gradient(
+    180.2deg,
+    rgb(30, 33, 48) 6.8%,
+    rgb(74, 98, 110) 131%
+  );
   margin: 0;
   display: flex;
-  place-items: center;
+  /*place-items: center;*/
   min-width: 320px;
   min-height: 100vh;
 }
