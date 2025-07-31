@@ -10,3 +10,16 @@ Currently, two official plugins are available:
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+Dependencies
+
+ParticlesBg
+https://www.npmjs.com/package/particles-bg?activeTab=readme#-num---the-number-of-particles-emitted-each-time-generally-not-set
+
+Tilt Logo
+https://www.npmjs.com/package/react-parallax-tilt
+
+Face Detection API
+https://docs.clarifai.com/compute/inference/clarifai/api-legacy/
+
+https://github.com/Clarifai/clarifai-javascript#basic-use

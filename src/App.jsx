@@ -1,25 +1,56 @@
 import { useState } from "react";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
+import SignIn from "./components/SignIn/SignIn";
 import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
-import ParticlesBg from "particles-bg";
+import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 
 function App() {
-  const [count, setCount] = useState(0);
+  // State to manage input changes and button submissions
+  const [input, setInput] = useState("");
+  const [buttonClicked, setButtonClicked] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
+  const [box, setBox] = useState({
+    topRow: 0,
+    rightCol: 0,
+    bottomRow: 0,
+    leftCol: 0,
+  });
+  const [route, setRoute] = useState("signin");
+
+  const onInputChange = (event) => {
+    console.log(event.target.value);
+  };
+
+  const onButtonSubmit = () => {
+    console.log("Detect button clicked");
+  };
+
+  // Render the application based on the current route
+  const onRouteChange = (route) => {
+    setRoute(route);
+  };
 
   return (
     <>
-      <ParticlesBg type="cobweb" bg={false} />
-      <Navigation />
-      <Logo />
-      <h1 className="f1 white">Face Detection App</h1>
-      <Rank />
-      <ImageLinkForm />
+      <Navigation onRouteChange={onRouteChange} />
+      {route === "signin" ? (
+        <SignIn onRouteChange={() => setRoute("home")} />
+      ) : (
+        <>
+          <Logo />
 
-      {/*
-      <FaceRecognition />*/}
+          <h1 className="f1 white">Face Detection App</h1>
+          <Rank />
+          <ImageLinkForm
+            onInputChange={onInputChange}
+            onButtonSubmit={onButtonSubmit}
+          />
+          <FaceRecognition imageUrl={imageUrl} box={box} />
+        </>
+      )}
     </>
   );
 }
