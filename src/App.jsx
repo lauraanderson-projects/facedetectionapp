@@ -12,7 +12,9 @@ function App() {
   // State to manage input changes and button submissions
   const [input, setInput] = useState("");
   const [buttonClicked, setButtonClicked] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState(
+    "https://thumbs.dreamstime.com/b/innovative-medical-device-featuring-eye-image-illustrating-advanced-tracking-technology-generated-ai-358374352.jpg?w=992"
+  );
   const [box, setBox] = useState({
     topRow: 0,
     rightCol: 0,
@@ -20,6 +22,7 @@ function App() {
     leftCol: 0,
   });
   const [route, setRoute] = useState("signin");
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const onInputChange = (event) => {
     console.log(event.target.value);
@@ -31,12 +34,17 @@ function App() {
 
   // Render the application based on the current route
   const onRouteChange = (route) => {
+    if (route === "signout") {
+      setIsSignedIn(false); // User is signed in
+    } else if (route === "home") {
+      setIsSignedIn(true); // User is signed out
+    }
     setRoute(route);
   };
 
   return (
     <>
-      <Navigation onRouteChange={onRouteChange} />
+      <Navigation ifSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       {route === "home" ? (
         <>
           <Logo />

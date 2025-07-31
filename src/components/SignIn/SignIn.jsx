@@ -29,6 +29,7 @@ const SignIn = ({ onRouteChange }) => {
                   type="password"
                   name="password"
                   id="password"
+                  autoComplete="off"
                 />
               </div>
             </fieldset>
@@ -43,7 +44,7 @@ const SignIn = ({ onRouteChange }) => {
             <div className="lh-copy mt3">
               <p
                 onClick={() => onRouteChange("register")}
-                className="f6 link dim black db"
+                className="f6 link dim black db pointer"
               >
                 Register
               </p>
