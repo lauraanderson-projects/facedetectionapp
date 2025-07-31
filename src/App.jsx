@@ -6,6 +6,7 @@ import Logo from "./components/Logo/Logo";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
+import Register from "./components/Register/Register";
 
 function App() {
   // State to manage input changes and button submissions
@@ -36,12 +37,9 @@ function App() {
   return (
     <>
       <Navigation onRouteChange={onRouteChange} />
-      {route === "signin" ? (
-        <SignIn onRouteChange={() => setRoute("home")} />
-      ) : (
+      {route === "home" ? (
         <>
           <Logo />
-
           <h1 className="f1 white">Face Detection App</h1>
           <Rank />
           <ImageLinkForm
@@ -50,6 +48,10 @@ function App() {
           />
           <FaceRecognition imageUrl={imageUrl} box={box} />
         </>
+      ) : route === "signin" ? (
+        <SignIn onRouteChange={onRouteChange} />
+      ) : (
+        <Register onRouteChange={onRouteChange} />
       )}
     </>
   );
