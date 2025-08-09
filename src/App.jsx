@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ParticlesBg from "particles-bg";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
 import SignIn from "./components/SignIn/SignIn";
-import Logo from "./components/Logo/Logo";
+import Title from "./components/Title/Title";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
@@ -10,11 +11,8 @@ import Register from "./components/Register/Register";
 
 function App() {
   // State to manage input changes and button submissions
-  const [input, setInput] = useState("");
-  const [buttonClicked, setButtonClicked] = useState(false);
-  const [imageUrl, setImageUrl] = useState(
-    "https://thumbs.dreamstime.com/b/innovative-medical-device-featuring-eye-image-illustrating-advanced-tracking-technology-generated-ai-358374352.jpg?w=992"
-  );
+  const [input, setInput] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
   const [box, setBox] = useState({
     topRow: 0,
     rightCol: 0,
@@ -22,46 +20,121 @@ function App() {
     leftCol: 0,
   });
   const [route, setRoute] = useState("signin");
+  const [buttonClicked, setButtonClicked] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({
+    id: "",
+    name: "",
+    email: "",
+    entries: 0,
+    joined: "",
+  });
+
+  // Load user data from the API
+  const loadUser = (data) => {
+    setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      entries: data.entries,
+      joined: data.joined,
+    });
+  };
+
+  const calculateFaceLocation = (data) => {
+    const clarifaiFace = data.boundingBox;
+    const image = document.getElementById("inputimage");
+    const width = Number(image.width);
+    const height = Number(image.height);
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - clarifaiFace.right_col * width,
+      bottomRow: height - clarifaiFace.bottom_row * height,
+    };
+  };
+
+  const displayFaceBox = (box) => {
+    console.log(box);
+    setBox(box);
+  };
 
   const onInputChange = (event) => {
-    console.log(event.target.value);
+    //console.log(event.target.value);
+    setInput(event.target.value);
+    setButtonClicked(false); // hide FaceRecognition until next submit
   };
 
   const onButtonSubmit = () => {
-    console.log("Detect button clicked");
+    setButtonClicked(true); //Flag to show FaceRecognition
+    // 👇 Set imageUrl to the input value
+    setImageUrl(input);
+
+    // 👇 Call your backend to send image to Clarifai
+    fetch("http://localhost:3000/imageurl", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        imageUrl: input,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.regions) {
+          //Display boxes data
+          displayFaceBox(calculateFaceLocation(data.regions[0]));
+          // 👇 Call to increment user entry count
+          fetch("http://localhost:3000/image", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: user.id }),
+          })
+            .then((response) => response.json())
+            .then((count) => {
+              setUser({ ...user, entries: count });
+            });
+
+          //console.log(data.regions[0].boundingBox);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   // Render the application based on the current route
   const onRouteChange = (route) => {
     if (route === "signout") {
       setIsSignedIn(false); // User is signed in
+      setRoute("signin");
     } else if (route === "home") {
       setIsSignedIn(true); // User is signed out
+      setRoute("home");
+    } else {
+      setRoute(route);
     }
-    setRoute(route);
   };
 
   return (
-    <>
+    <div className="App">
+      <ParticlesBg type="cobweb" num={500} bg={true} />
       <Navigation ifSignedIn={isSignedIn} onRouteChange={onRouteChange} />
+      <Title />
       {route === "home" ? (
         <>
-          <Logo />
-          <h1 className="f1 white">Face Detection App</h1>
-          <Rank />
+          <Rank name={user.name} entries={user.entries} />
           <ImageLinkForm
             onInputChange={onInputChange}
             onButtonSubmit={onButtonSubmit}
           />
-          <FaceRecognition imageUrl={imageUrl} box={box} />
+          {buttonClicked && imageUrl && (
+            <FaceRecognition imageUrl={imageUrl} box={box} />
+          )}
         </>
       ) : route === "signin" ? (
-        <SignIn onRouteChange={onRouteChange} />
+        <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
       ) : (
-        <Register onRouteChange={onRouteChange} />
+        <Register loadUser={loadUser} onRouteChange={onRouteChange} />
       )}
-    </>
+    </div>
   );
 }
 
