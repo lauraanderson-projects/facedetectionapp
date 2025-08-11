@@ -30,5 +30,6 @@ PostgresSQL
 
 ## Example Layout
 
-/scr/assets/example_site/face-detection.png
-/scr/assets/example_site/signin.png
+![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/lauraanderson/Documents/PortfolioProject/facedetectionapp/src/assets/example_site/Screen%20Shot%202025-08-11%20at%203.14.24%20PM.png?version%3D1754952010261)
+
+![alt text](https://file%2B.vscode-resource.vscode-cdn.net/Users/lauraanderson/Documents/PortfolioProject/facedetectionapp/src/assets/example_site/face-detection.png?version%3D1754951740514)
