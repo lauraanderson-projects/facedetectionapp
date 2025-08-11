@@ -1,5 +1,6 @@
 import React from "react";
 import logo from "./la_logo_simple.png"; // Assuming you have a logo image
+import "./Navigation.css";
 
 const Navigation = ({ onRouteChange, ifSignedIn }) => {
   // Conditional rendering based on the user's sign-in status
@@ -7,12 +8,7 @@ const Navigation = ({ onRouteChange, ifSignedIn }) => {
     return (
       <nav style={{ display: "flex", justifyContent: "space-between" }}>
         <div className="logo-container">
-          <img
-            src={logo}
-            style={{ width: "50px", height: "50px" }}
-            alt="Logo"
-            className="logo pa3"
-          />
+          <img src={logo} alt="Logo" className="logo pa3" />
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <h2
@@ -29,12 +25,7 @@ const Navigation = ({ onRouteChange, ifSignedIn }) => {
     return (
       <nav style={{ display: "flex", justifyContent: "space-between" }}>
         <div className="logo-container">
-          <img
-            src={logo}
-            style={{ width: "50px", height: "50px" }}
-            alt="Logo"
-            className="logo pa3"
-          />
+          <img src={logo} alt="Logo" className="logo pa3" />
         </div>
         <div>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
