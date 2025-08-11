@@ -1,4 +1,11 @@
 h1 {
-  color: #4682b4;
+  color: rgb(197, 200, 232);
   opacity: 0.5; /* Makes the text 50% transparent */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  color: rgb(197, 200, 232);
+  opacity: 0.5; /* Makes the text 50% transparent */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
