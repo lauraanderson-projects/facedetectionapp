@@ -1,5 +1,6 @@
 import React from "react";
 import "./Register.css";
+import PasswordChecklist from "../../assets/PasswordChecklist/PasswordChecklist";
 
 class Register extends React.Component {
   constructor(props) {
@@ -8,8 +9,27 @@ class Register extends React.Component {
       email: "",
       password: "",
       name: "",
+      passwordError: "",
     };
+
+    // Define password rules once — reusable anywhere
+    this.passwordRules = [
+      { label: "At least 8 characters", test: /.{8,}/ },
+      { label: "One uppercase letter", test: /[A-Z]/ },
+      { label: "One lowercase letter", test: /[a-z]/ },
+      { label: "One number", test: /[0-9]/ },
+      { label: "One special character", test: /[^A-Za-z0-9]/ },
+    ];
   }
+
+  validatePassword = (password) => {
+    for (let rule of this.passwordRules) {
+      if (!rule.test.test(password)) {
+        return `Password must include: ${rule.label}`;
+      }
+    }
+    return "";
+  };
 
   onNameChange = (event) => {
     this.setState({ name: event.target.value });
@@ -20,18 +40,21 @@ class Register extends React.Component {
   };
 
   onPasswordChange = (event) => {
-    this.setState({ password: event.target.value });
+    const password = event.target.value;
+    const error = this.validatePassword(password);
+    this.setState({ password, passwordError: error });
   };
 
   onSubmitSignIn = () => {
+    const { passwordError, email, password, name } = this.state;
+    if (passwordError) {
+      alert("Please fix password errors before submitting.");
+      return;
+    }
     fetch("http://localhost:3000/register", {
       method: "post",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        name: this.state.name,
-      }),
+      body: JSON.stringify({ email, password, name }),
     })
       .then((response) => response.json())
       .then((user) => {
@@ -44,7 +67,8 @@ class Register extends React.Component {
   };
 
   render() {
-    const { onRouteChange } = this.props;
+    const { password, passwordError } = this.state;
+
     return (
       <div>
         <article className="br3 bg-near-white ba b--white-200 mv4 w-250 mw6 shadow-5 center">
@@ -53,13 +77,12 @@ class Register extends React.Component {
               <fieldset id="register" className="ba b--transparent ph0 mh0">
                 <legend className="f1 fw6 ph0 mh0">Register</legend>
                 <div className="mt3">
-                  <label className="db fw6 lh-copy f6" htmlFor="email-address">
+                  <label className="db fw6 lh-copy f6" htmlFor="name">
                     Name
                   </label>
                   <input
                     className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                     type="text"
-                    name="name"
                     id="name"
                     onChange={this.onNameChange}
                   />
@@ -71,7 +94,6 @@ class Register extends React.Component {
                   <input
                     className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                     type="email"
-                    name="email-address"
                     id="email-address"
                     autoComplete="on"
                     onChange={this.onEmailChange}
@@ -84,11 +106,26 @@ class Register extends React.Component {
                   <input
                     className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                     type="password"
-                    name="password"
                     id="password"
                     autoComplete="off"
                     onChange={this.onPasswordChange}
                   />
+                  <div className="password-checklist-container">
+                    {/* Reusable password checklist */}
+                    <PasswordChecklist
+                      password={password}
+                      rules={this.passwordRules}
+                    />
+                    {/* Error message */}
+                    <div className="password-validation-message">
+                      {passwordError ||
+                        ("\u00A0" && (
+                          <p className="password-validation-message">
+                            {passwordError}
+                          </p>
+                        ))}
+                    </div>
+                  </div>
                 </div>
               </fieldset>
               <div>

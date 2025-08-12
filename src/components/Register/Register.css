@@ -1,3 +1,17 @@
 .w-250 {
-  width: 450px;
+  width: 450px; /* or any fixed width */
+  min-width: 450px; /* ensures it doesn't shrink */
+  max-width: 450px; /* optional: prevents growing */
+}
+
+.password-validation-message {
+  height: 20px; /* fixed height that fits your messages */
+  margin-top: 5px;
+  color: red; /* or whatever color you want */
+  font-size: 10px;
+}
+
+.password-checklist-container {
+  width: 280px; /* match or slightly less than form width */
+  min-width: 280px;
 }
