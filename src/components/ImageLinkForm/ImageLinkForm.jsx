@@ -3,20 +3,32 @@ import "./ImageLinkForm.css";
 
 const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
   return (
-    <div className="center">
-      <div className="form center pa4 br3 shadow-5">
-        <input
-          className="f4 pa2 w-70 center"
-          type="text"
-          placeholder="Enter image URL"
-          onChange={onInputChange}
-        />
-        <button
-          className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
-          onClick={onButtonSubmit}
+    <div>
+      <div className="form pa4 br3 shadow-5">
+        <div className="center">
+          <input
+            className="f4 pa2 w-70 center"
+            type="text"
+            placeholder="Enter image URL..."
+            onChange={onInputChange}
+          />
+          <button
+            className="w-30 grow f4 link ph3 pv2 dib white bg-light-purple"
+            onClick={onButtonSubmit}
+          >
+            Detect
+          </button>
+        </div>
+        <div
+          className="f6"
+          style={{
+            textAlign: "left",
+            color: "rgb(144, 147, 176)",
+            paddingTop: "10px",
+          }}
         >
-          Detect
-        </button>
+          Example: https://example.com/1.jpg
+        </div>
       </div>
     </div>
   );

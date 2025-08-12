@@ -9,26 +9,30 @@ import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Register from "./components/Register/Register";
 
+// Put this outside your App function
+const initialUserState = {
+  id: "",
+  name: "",
+  email: "",
+  entries: 0,
+  joined: "",
+};
+
+const initialBoxState = {
+  topRow: 0,
+  rightCol: 0,
+  bottomRow: 0,
+  leftCol: 0,
+};
+
 function App() {
-  // State to manage input changes and button submissions
   const [input, setInput] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
-  const [box, setBox] = useState({
-    topRow: 0,
-    rightCol: 0,
-    bottomRow: 0,
-    leftCol: 0,
-  });
+  const [box, setBox] = useState(initialBoxState);
   const [route, setRoute] = useState("signin");
   const [buttonClicked, setButtonClicked] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [user, setUser] = useState({
-    id: "",
-    name: "",
-    email: "",
-    entries: 0,
-    joined: "",
-  });
+  const [user, setUser] = useState(initialUserState);
 
   // Load user data from the API
   const loadUser = (data) => {
@@ -39,6 +43,15 @@ function App() {
       entries: data.entries,
       joined: data.joined,
     });
+  };
+
+  const resetAppState = () => {
+    setInput(null);
+    setImageUrl(null);
+    setBox(initialBoxState);
+    setButtonClicked(false);
+    setIsSignedIn(false);
+    setUser(initialUserState);
   };
 
   const calculateFaceLocation = (data) => {
@@ -92,9 +105,8 @@ function App() {
             .then((response) => response.json())
             .then((count) => {
               setUser({ ...user, entries: count });
-            });
-
-          //console.log(data.regions[0].boundingBox);
+            })
+            .catch((err) => console.log(err));
         }
       })
       .catch((err) => console.log(err));
@@ -103,11 +115,14 @@ function App() {
   // Render the application based on the current route
   const onRouteChange = (route) => {
     if (route === "signout") {
-      setIsSignedIn(false); // User is signed in
+      resetAppState();
       setRoute("signin");
     } else if (route === "home") {
-      setIsSignedIn(true); // User is signed out
+      setIsSignedIn(true);
       setRoute("home");
+    } else if (route === "register") {
+      resetAppState(); // Clear everything when going to register
+      setRoute("register");
     } else {
       setRoute(route);
     }
