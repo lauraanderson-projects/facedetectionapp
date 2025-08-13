@@ -36,3 +36,18 @@ body {
   display: flex;
   justify-content: center;
 }
+
+@media screen and (max-width: 600px) {
+  body {
+    padding: 0 20px; /* Adjust padding for smaller screens */
+  }
+  .App {
+    flex-direction: column; /* Stack elements vertically on small screens */
+  }
+  .main-content {
+    padding: 10px; /* Add some padding to the main content */
+  }
+  .face-recognition-wrapper {
+    min-height: 200px; /* Adjust height for smaller screens */
+  }
+}

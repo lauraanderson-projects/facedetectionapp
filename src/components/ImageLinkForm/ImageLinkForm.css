@@ -7,3 +7,14 @@
     rgb(32, 45, 58) 81.3%
   );
 }
+
+@media screen and (max-width: 700px) {
+  .form {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  .f4 {
+    font-size: 12px;
+  }
+}

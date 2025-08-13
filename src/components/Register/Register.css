@@ -33,3 +33,21 @@
   cursor: pointer;
   color: #888; /* Icon color */
 }
+
+@media screen and (max-width: 600px) {
+  .w-250 {
+    width: 100%; /* Full width on smaller screens */
+    min-width: 100%; /* Ensures it doesn't shrink */
+    max-width: 100%; /* Optional: prevents growing */
+  }
+  .password-checklist-container {
+    width: 100%; /* Full width on smaller screens */
+    min-width: 100%;
+  }
+  .password-input {
+    padding-right: 30px; /* Adjust based on icon size */
+  }
+  .password-toggle-icon {
+    right: 10px; /* Adjust position */
+  }
+}
