@@ -15,3 +15,21 @@
   width: 280px; /* match or slightly less than form width */
   min-width: 280px;
 }
+
+.password-input-container {
+  position: relative;
+  display: flex; /* or block, depending on your layout */
+  align-items: center; /* if using flex */
+}
+
+.password-input {
+  padding-right: 30px; /* Adjust based on icon size */
+  /* Other input styles */
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 10px; /* Adjust position */
+  cursor: pointer;
+  color: #888; /* Icon color */
+}

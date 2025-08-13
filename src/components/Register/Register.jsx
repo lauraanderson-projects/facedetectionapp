@@ -1,6 +1,7 @@
 import React from "react";
 import "./Register.css";
 import PasswordChecklist from "../../assets/PasswordChecklist/PasswordChecklist";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Import icons
 
 class Register extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class Register extends React.Component {
       password: "",
       name: "",
       passwordError: "",
+      passwordVisible: false,
     };
 
     // Define password rules once — reusable anywhere
@@ -21,6 +23,12 @@ class Register extends React.Component {
       { label: "One special character", test: /[^A-Za-z0-9]/ },
     ];
   }
+
+  togglePasswordVisibility = () => {
+    this.setState((prevState) => ({
+      passwordVisible: !prevState.passwordVisible,
+    }));
+  };
 
   validatePassword = (password) => {
     for (let rule of this.passwordRules) {
@@ -68,6 +76,8 @@ class Register extends React.Component {
 
   render() {
     const { password, passwordError } = this.state;
+    const { passwordVisible } = this.state;
+    const icon = passwordVisible ? FaEye : FaEyeSlash;
 
     return (
       <div>
@@ -99,32 +109,40 @@ class Register extends React.Component {
                     onChange={this.onEmailChange}
                   />
                 </div>
-                <div className="mv3">
+                <div className="mt3">
                   <label className="db fw6 lh-copy f6" htmlFor="password">
                     Password
                   </label>
+                </div>
+                <div className="mv3 password-input-container">
                   <input
-                    className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
-                    type="password"
+                    className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 password-input"
+                    type={passwordVisible ? "text" : "password"}
                     id="password"
                     autoComplete="off"
                     onChange={this.onPasswordChange}
                   />
-                  <div className="password-checklist-container">
-                    {/* Reusable password checklist */}
-                    <PasswordChecklist
-                      password={password}
-                      rules={this.passwordRules}
-                    />
-                    {/* Error message */}
-                    <div className="password-validation-message">
-                      {passwordError ||
-                        ("\u00A0" && (
-                          <p className="password-validation-message">
-                            {passwordError}
-                          </p>
-                        ))}
-                    </div>
+                  <span
+                    onClick={this.togglePasswordVisibility}
+                    className="password-toggle-icon"
+                  >
+                    {passwordVisible ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+                <div className="password-checklist-container">
+                  {/* Reusable password checklist */}
+                  <PasswordChecklist
+                    password={password}
+                    rules={this.passwordRules}
+                  />
+                  {/* Error message */}
+                  <div className="password-validation-message">
+                    {passwordError ||
+                      ("\u00A0" && (
+                        <p className="password-validation-message">
+                          {passwordError}
+                        </p>
+                      ))}
                   </div>
                 </div>
               </fieldset>
