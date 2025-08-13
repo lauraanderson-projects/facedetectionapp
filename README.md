@@ -30,6 +30,7 @@ https://github.com/Clarifai/clarifai-javascript#basic-use
 ## Backend DB
 
 PostgresSQL
+Backend Development: https://github.com/lauraanderson-projects/facedetectionapp-bkend
 
 ## Example Layout
 

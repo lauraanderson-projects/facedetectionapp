@@ -17,6 +17,19 @@ body {
 
 .App {
   text-align: center;
+  /*min-height: 100vh;  at least full viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex-grow: 1; /* allows the main content to grow and fill available space */
+}
+
+.face-recognition-wrapper {
+  position: relative; /* establishes the context for absolute positioning */
+  min-height: 330px; /* or whatever height your FaceRecognition roughly needs */
+  margin-bottom: 1rem; /* adds space below so footer won't overlap */
 }
 
 .center {

@@ -8,6 +8,7 @@ import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
 import Rank from "./components/Rank/Rank";
 import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Register from "./components/Register/Register";
+import Footer from "./components/Footer/Footer";
 
 // Put this outside your App function
 const initialUserState = {
@@ -133,22 +134,27 @@ function App() {
       <ParticlesBg type="cobweb" num={350} bg={true} />
       <Navigation ifSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       <Title />
-      {route === "home" ? (
-        <>
-          <Rank name={user.name} entries={user.entries} />
-          <ImageLinkForm
-            onInputChange={onInputChange}
-            onButtonSubmit={onButtonSubmit}
-          />
-          {buttonClicked && imageUrl && (
-            <FaceRecognition imageUrl={imageUrl} box={box} />
-          )}
-        </>
-      ) : route === "signin" ? (
-        <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
-      ) : (
-        <Register loadUser={loadUser} onRouteChange={onRouteChange} />
-      )}
+      <div className="main-content">
+        {route === "home" ? (
+          <>
+            <Rank name={user.name} entries={user.entries} />
+            <ImageLinkForm
+              onInputChange={onInputChange}
+              onButtonSubmit={onButtonSubmit}
+            />
+            {buttonClicked && imageUrl && (
+              <div className="face-recognition-wrapper">
+                <FaceRecognition imageUrl={imageUrl} box={box} />
+              </div>
+            )}
+          </>
+        ) : route === "signin" ? (
+          <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
+        ) : (
+          <Register loadUser={loadUser} onRouteChange={onRouteChange} />
+        )}
+      </div>
+      <Footer />
     </div>
   );
 }
