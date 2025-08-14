@@ -1,5 +1,3 @@
-require("dotenv").config({ path: "./server/.env" });
-
 import { useState, useEffect } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
@@ -21,7 +19,7 @@ const initialUserState = {
   joined: "",
 };
 
-const hostRoute = process.env.HOST || "http://localhost:3000";
+const hostRoute = import.meta.env.VITE_HOST_ROUTE || "http://localhost:3000";
 
 const initialBoxState = {
   topRow: 0,
