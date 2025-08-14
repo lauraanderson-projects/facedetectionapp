@@ -25,7 +25,7 @@ dist-ssr
 
 # Ignore env files
 .env
-.env.production
+.env.productionx
 .env.local
 .env.development
 .env.test.local
