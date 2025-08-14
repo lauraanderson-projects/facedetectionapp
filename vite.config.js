@@ -7,7 +7,7 @@ export default defineConfig({
   css: {
     minify: true,
   },
-  base: "./", // ensures relative asset paths
+  base: "/", // ensures relative asset paths
   build: {
     outDir: "dist",
     cssMinify: false, // disables esbuild CSS minification, no warnings
