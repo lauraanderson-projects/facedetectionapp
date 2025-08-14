@@ -12,6 +12,7 @@ class Register extends React.Component {
       name: "",
       passwordError: "",
       passwordVisible: false,
+      hostRoute: props.hostRoute, // Use hostRoute passed from App
     };
 
     // Define password rules once — reusable anywhere
@@ -54,12 +55,12 @@ class Register extends React.Component {
   };
 
   onSubmitSignIn = () => {
-    const { passwordError, email, password, name } = this.state;
+    const { passwordError, email, password, name, hostRoute } = this.state;
     if (passwordError) {
       alert("Please fix password errors before submitting.");
       return;
     }
-    fetch(`${this.props.hostRoute}/register`, {
+    fetch(`${hostRoute}/register`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password, name }),
@@ -114,6 +115,7 @@ class Register extends React.Component {
                     Password
                   </label>
                 </div>
+
                 <div className="mv3 password-input-container">
                   <input
                     className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100 password-input"
@@ -129,6 +131,7 @@ class Register extends React.Component {
                     {passwordVisible ? <FaEyeSlash /> : <FaEye />}
                   </span>
                 </div>
+
                 <div className="password-checklist-container">
                   {/* Reusable password checklist */}
                   <PasswordChecklist

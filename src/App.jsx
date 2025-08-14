@@ -10,6 +10,9 @@ import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Register from "./components/Register/Register";
 import Footer from "./components/Footer/Footer";
 
+// Get the API base URL from environment variables
+const fetchUrl = import.meta.env.VITE_REQUEST_URL;
+
 // Put this outside your App function
 const initialUserState = {
   id: "",
@@ -18,8 +21,6 @@ const initialUserState = {
   entries: 0,
   joined: "",
 };
-
-const hostRoute = import.meta.env.VITE_HOST_ROUTE || "http://localhost:3000";
 
 const initialBoxState = {
   topRow: 0,
@@ -87,7 +88,7 @@ function App() {
     setImageUrl(input);
 
     // 👇 Call your backend to send image to Clarifai
-    fetch(`${hostRoute}/imageurl`, {
+    fetch(`${fetchUrl}/imageurl`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -100,7 +101,7 @@ function App() {
           //Display boxes data
           displayFaceBox(calculateFaceLocation(data.regions[0]));
           // 👇 Call to increment user entry count
-          fetch(`${hostRoute}/image`, {
+          fetch(`${fetchUrl}/image`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: user.id }),
@@ -152,13 +153,13 @@ function App() {
           </>
         ) : route === "signin" ? (
           <SignIn
-            hostRoute={hostRoute}
+            hostRoute={fetchUrl}
             loadUser={loadUser}
             onRouteChange={onRouteChange}
           />
         ) : (
           <Register
-            hostRoute={hostRoute}
+            hostRoute={fetchUrl}
             loadUser={loadUser}
             onRouteChange={onRouteChange}
           />
