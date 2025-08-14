@@ -1,3 +1,5 @@
+require("dotenv").config({ path: "./server/.env" });
+
 import { useState, useEffect } from "react";
 import ParticlesBg from "particles-bg";
 import "./App.css";
@@ -18,6 +20,8 @@ const initialUserState = {
   entries: 0,
   joined: "",
 };
+
+const hostRoute = process.env.HOST || "http://localhost:3000";
 
 const initialBoxState = {
   topRow: 0,
@@ -85,7 +89,7 @@ function App() {
     setImageUrl(input);
 
     // 👇 Call your backend to send image to Clarifai
-    fetch("http://localhost:3000/imageurl", {
+    fetch(`${hostRoute}/imageurl`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -98,7 +102,7 @@ function App() {
           //Display boxes data
           displayFaceBox(calculateFaceLocation(data.regions[0]));
           // 👇 Call to increment user entry count
-          fetch("http://localhost:3000/image", {
+          fetch(`${hostRoute}/image`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: user.id }),
@@ -149,9 +153,17 @@ function App() {
             )}
           </>
         ) : route === "signin" ? (
-          <SignIn loadUser={loadUser} onRouteChange={onRouteChange} />
+          <SignIn
+            hostRoute={hostRoute}
+            loadUser={loadUser}
+            onRouteChange={onRouteChange}
+          />
         ) : (
-          <Register loadUser={loadUser} onRouteChange={onRouteChange} />
+          <Register
+            hostRoute={hostRoute}
+            loadUser={loadUser}
+            onRouteChange={onRouteChange}
+          />
         )}
       </div>
       <Footer />

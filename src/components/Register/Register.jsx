@@ -59,7 +59,7 @@ class Register extends React.Component {
       alert("Please fix password errors before submitting.");
       return;
     }
-    fetch("http://localhost:3000/register", {
+    fetch(`${this.props.hostRoute}/register`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password, name }),
