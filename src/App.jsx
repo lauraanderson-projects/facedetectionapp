@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import ParticlesBg from "particles-bg";
 import "./App.css";
 import Navigation from "./components/Navigation/Navigation";
@@ -30,7 +31,6 @@ const initialBoxState = {
 };
 
 function App() {
-  const [numParticles, setNumParticles] = useState(350);
   const [input, setInput] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [box, setBox] = useState(initialBoxState);
@@ -38,20 +38,8 @@ function App() {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState(initialUserState);
-
-  useEffect(() => {
-    const updateParticles = () => {
-      if (window.innerWidth <= 600) {
-        setNumParticles(150);
-      } else {
-        setNumParticles(350);
-      }
-    };
-
-    updateParticles(); // set on mount
-    window.addEventListener("resize", updateParticles);
-    return () => window.removeEventListener("resize", updateParticles);
-  }, []);
+  // Detect if screen is <= 600px
+  const isSmallScreen = useMediaQuery({ query: "(max-width: 600px)" });
 
   // Load user data from the API
   const loadUser = (data) => {
@@ -149,7 +137,7 @@ function App() {
 
   return (
     <div className="App">
-      <ParticlesBg type="cobweb" num={numParticles} bg={true} />
+      <ParticlesBg type="cobweb" num={isSmallScreen ? 150 : 350} bg={true} />
       <Navigation ifSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       <Title />
       <div className="main-content">
