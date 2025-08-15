@@ -13,6 +13,22 @@ import Footer from "./components/Footer/Footer";
 // Get the API base URL from environment variables
 const fetchUrl = import.meta.env.VITE_REQUEST_URL;
 
+const [numParticles, setNumParticles] = useState(350);
+
+useEffect(() => {
+  const updateParticles = () => {
+    if (window.innerWidth <= 600) {
+      setNumParticles(150);
+    } else {
+      setNumParticles(350);
+    }
+  };
+
+  updateParticles(); // set on mount
+  window.addEventListener("resize", updateParticles);
+  return () => window.removeEventListener("resize", updateParticles);
+}, []);
+
 // Put this outside your App function
 const initialUserState = {
   id: "",
@@ -134,7 +150,7 @@ function App() {
 
   return (
     <div className="App">
-      <ParticlesBg type="cobweb" num={350} bg={true} />
+      <ParticlesBg type="cobweb" num={numParticles} bg={true} />
       <Navigation ifSignedIn={isSignedIn} onRouteChange={onRouteChange} />
       <Title />
       <div className="main-content">
