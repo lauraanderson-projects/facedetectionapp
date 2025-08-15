@@ -13,22 +13,6 @@ import Footer from "./components/Footer/Footer";
 // Get the API base URL from environment variables
 const fetchUrl = import.meta.env.VITE_REQUEST_URL;
 
-const [numParticles, setNumParticles] = useState(350);
-
-useEffect(() => {
-  const updateParticles = () => {
-    if (window.innerWidth <= 600) {
-      setNumParticles(150);
-    } else {
-      setNumParticles(350);
-    }
-  };
-
-  updateParticles(); // set on mount
-  window.addEventListener("resize", updateParticles);
-  return () => window.removeEventListener("resize", updateParticles);
-}, []);
-
 // Put this outside your App function
 const initialUserState = {
   id: "",
@@ -46,6 +30,7 @@ const initialBoxState = {
 };
 
 function App() {
+  const [numParticles, setNumParticles] = useState(350);
   const [input, setInput] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [box, setBox] = useState(initialBoxState);
@@ -53,6 +38,20 @@ function App() {
   const [buttonClicked, setButtonClicked] = useState(false);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [user, setUser] = useState(initialUserState);
+
+  useEffect(() => {
+    const updateParticles = () => {
+      if (window.innerWidth <= 600) {
+        setNumParticles(150);
+      } else {
+        setNumParticles(350);
+      }
+    };
+
+    updateParticles(); // set on mount
+    window.addEventListener("resize", updateParticles);
+    return () => window.removeEventListener("resize", updateParticles);
+  }, []);
 
   // Load user data from the API
   const loadUser = (data) => {
